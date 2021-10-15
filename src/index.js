@@ -5,9 +5,7 @@ import AppProvider from "./App/AppProvider";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <AppProvider />
-  </React.StrictMode>,
+  <AppProvider />,
   document.getElementById("root")
 );
 
