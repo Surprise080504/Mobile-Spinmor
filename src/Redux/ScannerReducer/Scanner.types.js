@@ -7,6 +7,7 @@ export const SET_SCAN_ERROR = "SET_SCAN_ERROR";
 export const GET_ITEM_LOADING = "GET_ITEM_LOADING";
 export const GET_ITEM_ERROR = "GET_ITEM_ERROR";
 export const SET_QR_ITEM = "SET_QR_ITEM";
+export const SET_QR_LOCATION = "SET_QR_LOCATION";
 
 export const SET_QTY = "SET_QTY";
 export const SET_IS_INPUT_EMPTY = "SET_IS_INPUT_EMPTY";

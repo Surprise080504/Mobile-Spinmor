@@ -264,7 +264,7 @@ function ScannedItem({
                     container
                     item
                     direction="row"
-                    justify="space-between"
+                    justifyContent="space-between"
                     alignItems="center"
                     alignContent="flex-start"
                   >
@@ -328,7 +328,7 @@ function ScannedItem({
                     container
                     item
                     direction="row"
-                    justify="center"
+                    justifyContent="center"
                     className={classes.addToBasketContainer}
                   >
                     <Grid item>
@@ -389,7 +389,7 @@ function ScannedItem({
               container
               item
               direction="row"
-              justify="space-between"
+              justifyContent="space-between"
               className={classes.actionsContainer}
             >
               <Button

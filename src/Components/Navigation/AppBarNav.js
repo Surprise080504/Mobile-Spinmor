@@ -7,38 +7,27 @@ import { connect } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 
 import AppBar from "@material-ui/core/AppBar";
+import Box from '@material-ui/core/Box';
 import Toolbar from "@material-ui/core/Toolbar";
 import Drawer from "@material-ui/core/Drawer";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
-
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import CameraAltIcon from "@material-ui/icons/CameraAlt";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import ListAltIcon from "@material-ui/icons/ListAlt";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import TranslateIcon from "@material-ui/icons/Translate";
-import MailIcon from "@material-ui/icons/Mail";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 
 import { logout, setIsMenuOpen } from "../../Redux/AppReducer/App.act";
-
 import { drawerWidth } from "../../Assets/consts";
-
 import CurrencyMenu from "../Basket/CurrencyMenu";
-
 import spinmorLogo from "../../Assets/images/logo.jpeg";
+import basketIcon from "../../Assets/icons/basket.gif";
+import rewardsIcon from "../../Assets/icons/Rewards.gif";
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -105,11 +94,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapStateToProps = ({ AppReducer }) => ({
+const mapStateToProps = ({ AppReducer, ScannerReducer, BasketReducer }) => ({
   isMenuOpen: AppReducer.isMenuOpen,
   firstName: AppReducer.firstName,
   direction: AppReducer.direction,
-  prodStatus: AppReducer.prodStatus,
+  qrItem: ScannerReducer.qrItem,
+  basketItems: BasketReducer.basketItems,
+  basketDbData: BasketReducer.basketDbData
 });
 const mapDispatchToProps = (dispatch) => ({
   logout: bindActionCreators(logout, dispatch),
@@ -121,7 +112,9 @@ function AppBarNav({
   logout,
   firstName,
   direction,
-  prodStatus,
+  qrItem,
+  basketItems,
+  basketDbData
 }) {
   const classes = useStyles();
 
@@ -144,13 +137,7 @@ function AppBarNav({
         position="fixed"
         className={clsx(classes.appBar, isMenuOpen && classes.appBarShift)}
       >
-        <Toolbar
-        // style={{
-        //   display: "flex",
-        //   flexDirection: "row",
-        //   justifyContent: "space-between",
-        // }}
-        >
+        <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -160,18 +147,17 @@ function AppBarNav({
           >
             <MenuIcon />
           </IconButton>
-
-          <Typography variant="h6" noWrap>
+          {qrItem ? (<img loading="lazy" src={rewardsIcon} width={40} height={40} />) : (<Typography variant="h6" noWrap>
             G'day {firstName}
-          </Typography>
+          </Typography>)}
 
+          {basketDbData.basketStatus === "e" && (<Box component="span" m={1}>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginLeft: 30, color: "#e60000" }}>
+              <img loading="lazy" src={basketIcon} width={30} height={30} />
+              <Typography style={{ fontWeight: 550 }} variant="h5">{basketItems.length}</Typography>
+            </div>
+          </Box>)}
           <div style={{ flexGrow: 1 }} />
-          {prodStatus === "Sandbox" && (
-            <Typography style={{ marginRight: 8 }}>
-              Status: {prodStatus}
-            </Typography>
-          )}
-
           <CurrencyMenu />
         </Toolbar>
       </AppBar>
@@ -190,7 +176,7 @@ function AppBarNav({
             src={spinmorLogo}
             alt="logo"
             width={drawerWidth - 80}
-            // height={48}
+          // height={48}
           />
 
           <IconButton onClick={handleDrawerClose}>

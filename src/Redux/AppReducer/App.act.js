@@ -201,14 +201,8 @@ export const loginAction = () => async (dispatch, getState) => {
         "Content-Type": "application/json",
         Authorization: "Bearer " + getState().AppReducer.token,
       },
-      // data: {
-      //   UserName: "ran@test.com",
-      //   Password: "ran",
-      // },
-      // data: getState().AppReducer.loginInfo,
       withCredentials: true,
     });
-
     if (loginResponse.data) {
       const loginData = loginResponse.data;
 

@@ -1,12 +1,7 @@
 import React from "react";
-// import PropTypes from "prop-types";
-
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-
 import { Switch, Redirect } from "react-router-dom";
-
-import { makeStyles } from "@material-ui/core/styles";
 
 import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
@@ -26,21 +21,6 @@ import {
 } from "../../Redux/AppReducer/App.act";
 import { getExchangeRateAction } from "../../Redux/BasketReducer/Basket.act";
 import { status } from "../../api/api";
-
-const useStyles = makeStyles((theme) => ({
-  // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
-  //
-  drawerHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    // justifyContent: 'flex-end',
-  },
-}));
 
 const mapStateToProps = ({ AppReducer }) => ({
   token: AppReducer.token,
@@ -64,8 +44,6 @@ const AppRouter = ({
   setInitializationStatus,
   logout,
 }) => {
-  const classes = useStyles();
-
   React.useEffect(() => {
     console.log("initializationStatus:", initializationStatus);
 
@@ -113,7 +91,6 @@ const AppRouter = ({
       {initializationStatus === status.finish && (
         <React.Fragment>
           <AppBarNav />
-          {/*<div className={classes.drawerHeader} />*/}
         </React.Fragment>
       )}
 

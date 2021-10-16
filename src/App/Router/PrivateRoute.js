@@ -49,11 +49,11 @@ const PrivateRoute = ({ children, token, initializationStatus, ...rest }) => {
           alignItems="center"
           alignContent="center"
           className={classes.root}
-          justify="space-evenly"
+          justifyContent="space-evenly"
         >
           <Grid item>
             <Typography variant="h1" align="center">
-              welcome to Spinmor
+              Welcome to Spinmor
             </Typography>
           </Grid>
 

@@ -24,24 +24,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapStateToProps = ({ AppReducer }) => ({
+const mapStateToProps = ({ AppReducer, ScannerReducer }) => ({
   direction: AppReducer.direction,
   currency: AppReducer.currency,
+  qrLocation: ScannerReducer.qrLocation
 });
 const mapDispatchToProps = (dispatch) => ({
   setCurrency: bindActionCreators(setCurrency, dispatch),
 });
 
-function CurrencyMenu({ currency, direction, setCurrency }) {
+function CurrencyMenu({ currency, direction, qrLocation, setCurrency }) {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [disable, setDisable] = React.useState(false);
   const handleMenuClick = (e) => {
     setAnchorEl(e.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  React.useEffect(() => {
+    if (qrLocation) {
+      if (qrLocation.LocationType === "coffeeshop") {
+        setCurrency(currencies[0]);
+        setDisable(true);
+      }
+      else setDisable(false);
+    } else setDisable(false);
+  }, [qrLocation]);
 
   return (
     <React.Fragment>
@@ -71,6 +83,7 @@ function CurrencyMenu({ currency, direction, setCurrency }) {
             <MenuItem
               key={currCurrency.iso}
               onClick={() => setCurrency(currCurrency)}
+              disabled={disable}
             >
               <CheckIcon
                 style={{

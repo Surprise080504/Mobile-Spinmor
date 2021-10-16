@@ -8,7 +8,7 @@ import Paper from "@material-ui/core/Paper";
 
 import {
   MuiThemeProvider,
-  createMuiTheme,
+  createTheme,
   StylesProvider,
   jssPreset,
   responsiveFontSizes,
@@ -47,7 +47,7 @@ const AppTheme = ({ themeType, direction, children }) => {
     <StylesProvider jss={jss}>
       <MuiThemeProvider
         theme={responsiveFontSizes(
-          createMuiTheme({
+          createTheme({
             ...defaultTheme,
             direction,
             palette: {

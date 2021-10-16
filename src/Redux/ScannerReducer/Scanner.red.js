@@ -8,6 +8,7 @@ import {
   GET_ITEM_LOADING,
   GET_ITEM_ERROR,
   SET_QR_ITEM,
+  SET_QR_LOCATION,
   //
   SET_QTY,
   SET_IS_INPUT_EMPTY,
@@ -32,6 +33,7 @@ const initialState = {
   getItemLoading: false,
   getItemError: null,
   qrItem: null,
+  qrLocation: null,
   //
   qty: 1,
   isInputEmpty: false,
@@ -90,8 +92,6 @@ const ScannerReducer = (state = initialState, action) => {
     //
 
     case GET_ITEM_LOADING: {
-      console.log(action.payload);
-      console.log(typeof action.payload);
       return {
         ...state,
         getItemLoading: action.payload,
@@ -109,6 +109,13 @@ const ScannerReducer = (state = initialState, action) => {
       return {
         ...state,
         qrItem: action.payload,
+      };
+    }
+
+    case SET_QR_LOCATION: {
+      return {
+        ...state,
+        qrLocation: action.payload,
       };
     }
 

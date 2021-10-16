@@ -8,6 +8,7 @@ import {
   GET_ITEM_LOADING,
   GET_ITEM_ERROR,
   SET_QR_ITEM,
+  SET_QR_LOCATION,
   //
   SET_QTY,
   SET_IS_INPUT_EMPTY,
@@ -76,6 +77,11 @@ export const setQrItem = (qrItem) => ({
   payload: qrItem,
 });
 
+export const setQrLocation = (qrLocation) => ({
+  type: SET_QR_LOCATION,
+  payload: qrLocation,
+});
+
 export const getItemByQr = () => async (dispatch, getState) => {
   const { scanResult, scanError } = getState().ScannerReducer;
 
@@ -85,12 +91,6 @@ export const getItemByQr = () => async (dispatch, getState) => {
   }
 
   dispatch(setGetItemLoading(true));
-  // function sleep(ms) {
-  //   return new Promise((resolve) => setTimeout(() => resolve(), ms));
-  // }
-  // console.log("start sleep");
-  // await sleep(5000);
-  // console.log("end sleep");
 
   try {
     const getItemListResponse = await axiosInstance({
@@ -103,7 +103,6 @@ export const getItemByQr = () => async (dispatch, getState) => {
         Authorization: "Bearer " + getState().AppReducer.token,
       },
     });
-
     if (getItemListResponse.data) {
       // console.log(getItemListResponse.data);
 
@@ -120,6 +119,7 @@ export const getItemByQr = () => async (dispatch, getState) => {
       }
     } else {
       dispatch(setGetItemError(404));
+      dispatch(setQrItem(null));
     }
   } catch (error) {
     if (error.response) {
@@ -144,6 +144,40 @@ export const getItemByQr = () => async (dispatch, getState) => {
     dispatch(setGetItemLoading(false));
     dispatch(setScanError(null));
     dispatch(setIsScanSuccess(false));
+  }
+};
+
+export const getLocationByQR = () => async (dispatch, getState) => {
+  const { scanResult } = getState().ScannerReducer;
+  try {
+    let res = await axiosInstance({
+      method: "get",
+      url: "/API/GetLocationByQR",
+      headers: {
+        Authorization: "Bearer " + getState().AppReducer.token,
+      },
+      withCredentials: true,
+      params: {
+        QrCode: String(scanResult).substring(0, 13)
+      },
+    });
+
+    if (res.data) dispatch(setQrLocation(res.data));
+    else dispatch(setQrLocation(null));
+  } catch (error) {
+    let caughtError = 500;
+
+    if (error.response) {
+      console.log(error.response.data);
+      console.log(error.response.status);
+      caughtError = error.response.status;
+    } else if (error.request) {
+      console.log(error.request);
+    } else {
+      console.log("Error", error.message);
+    }
+    dispatch(setQrLocation(null));
+    return;
   }
 };
 

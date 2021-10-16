@@ -24,19 +24,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     minHeight: "100vh",
     minWidth: "100%",
+    flexGrow: 1
   },
   textField: {
     minWidth: 300,
-  },
-
-  inputContainer: {
-    minHeight: 250,
-  },
-  logoContainer: {
-    position: "absolute",
-    top: 24,
-    left: 24,
-  },
+  }
 }));
 
 const mapStateToProps = ({ AppReducer }) => ({
@@ -72,17 +64,17 @@ function Login({
   return (
     <Grid
       container
-      justify="space-evenly"
+      justifyContent="space-evenly"
       alignItems="center"
       alignContent="center"
       className={classes.root}
       direction="column"
     >
-      <div className={classes.logoContainer}>
+      <Grid item>
         <a href="https://www.spinmor.com/" target="_blank" rel="noreferrer">
           <img src={spinmorLogo} alt="logo" height={96} />
         </a>
-      </div>
+      </Grid>
 
       <Grid item>
         <Typography variant="h3" component="h1" align="center">
@@ -103,28 +95,27 @@ function Login({
 
         {localStorage.getItem("@initializationStatus") ===
           status.error_exchange && (
-          <Typography>
-            An error while getting exchange rates, please try again
-          </Typography>
-        )}
+            <Typography>
+              An error while getting exchange rates, please try again
+            </Typography>
+          )}
 
         {localStorage.getItem("@initializationStatus") ===
           status.error_login && (
-          <Typography>
-            An error while getting your info, please try again
-          </Typography>
-        )}
+            <Typography>
+              An error while getting your info, please try again
+            </Typography>
+          )}
       </Grid>
-
-      <Grid
-        container
-        item
-        direction="column"
-        alignItems="center"
-        justify="space-between"
-        className={classes.inputContainer}
-      >
-        <form autoComplete="on" onSubmit={handleLogin}>
+      <form autoComplete="on" onSubmit={handleLogin}>
+        <Grid
+          container
+          item
+          direction="column"
+          alignItems="center"
+          justifyContent="space-between"
+          spacing={2}
+        >
           <Grid item>
             <TextField
               value={email}
@@ -168,43 +159,20 @@ function Login({
             />
           </Grid>
 
-          <Grid item style={{ alignSelf: "center" }}>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              disabled={isTokenCallLoading}
-            >
-              login
-            </Button>
-          </Grid>
-        </form>
-
-        {/*<Grid
-          container
-          item
-          direction="row"
-          justify="space-between"
-          alignItems="center"
-          xl={4}
-          lg={4}
-          md={4}
-          sm={6}
-          xs={12}
-        >
           <Grid item>
-            <Button variant="outlined" color="primary">
-              Forgot password
-            </Button>
+            <center>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                disabled={isTokenCallLoading}
+              >
+                login
+              </Button>
+            </center>
           </Grid>
-
-          <Grid item>
-            <Button variant="outlined" color="primary">
-              Register
-            </Button>
-          </Grid>
-        </Grid>*/}
-      </Grid>
+        </Grid>
+      </form>
     </Grid>
   );
 }
